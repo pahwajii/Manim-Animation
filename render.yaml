@@ -2,6 +2,7 @@ services:
   - type: web
     name: manim-ai-backend
     runtime: docker
+    rootDir: ./
     dockerfilePath: ./Dockerfile
     envVars:
       - key: GEMINI_API_KEY
