@@ -31,7 +31,7 @@ function App() {
     setResult(null)
 
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch('${import.meta.env.VITE_BACKEND_URL}/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
