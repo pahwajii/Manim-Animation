@@ -1,1 +1,4 @@
+
 manim
+opencv-python
+ffmpeg-python
