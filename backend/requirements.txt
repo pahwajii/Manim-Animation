@@ -1,4 +1,6 @@
-manim==0.18.1
+manim>=0.18.0
+gTTS>=2.5.0
+mutagen>=1.47.0
 numpy
 Pillow
 opencv-python

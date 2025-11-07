@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: manim-ai-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: models/gemini-2.0-flash
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: PYTHON_EXE
+        value: python3
+      - key: MANIM_EXE
+        value: manim
+    healthCheckPath: /api/health
+    disk:
+      name: manim-temp
+      mountPath: /app/temp
+      sizeGB: 10
+    regions:
+      - singapore
