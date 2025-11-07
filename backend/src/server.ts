@@ -21,7 +21,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 /** Your confirmed venv manim.exe path (Windows) */
 // const MANIM_EXE = "D:/manimfixerai2/manimenv/Scripts/manim.exe";
 /** Portable Manim CLI: env override > python3 -m manim (default) */
-const MANIM_CLI = process.env.MANIM_CLI || "python3 -m manim";
+const MANIM_CLI = process.env.MANIM_CLI || "manim";
 const MANIM_EXE = MANIM_CLI;
 
 /** Python executable for gTTS */

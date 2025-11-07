@@ -1,4 +1,5 @@
-
-manim
+manim==0.18.1
+numpy
+Pillow
 opencv-python
 ffmpeg-python
