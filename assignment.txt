@@ -1,0 +1,45 @@
+## Assignment 1: “Manim Error-Fixing Pipeline with AI”
+
+### Goal:
+
+Build a small pipeline where an AI model iteratively fixes Manim code until it runs successfully and produces a video.
+
+### Problem Statement:
+
+ The system takes as input a text prompt describing a scene, then:
+
+1. Generates Python code for Manim (e.g., using OpenAI or Gemini API).
+2. Attempts to run it.
+3. If an error occurs, captures the error message and asks the AI to fix the code.
+4. Repeats until the code executes successfully and produces a .mp4 video.
+
+### Example Flow:
+
+
+Prompt → “Create a rotating cube with labels on each face”
+
+→ AI generates Manim code.
+→ Run code → Error → Capture traceback.
+→ Send both code + error to AI for correction.
+→ Re-run until success.
+→ Output: final working Manim video.
+
+
+### 🧰 Tech Stack:
+
+* Node.js and Typescript
+* Manim (Community edition) 
+* OpenAI/Gemini API - use gemini free tier api.
+* Docker (bonus if they containerize)
+
+* Optional: small web UI to visualize iterations
+
+### ✅ Evaluation Criteria:
+
+| Criteria           | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| Core Logic     | Working retry/fix loop                                |
+| Error Handling | Ability to parse errors and fix logically             |
+| Efficiency     | Number of correction iterations before success        |
+| Code Quality   | Clean modular code, clear flow                        |
+| Bonus          | Logging, async execution, or small frontend dashboard |

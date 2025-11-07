@@ -1,0 +1,14 @@
+{
+  "name": "manimfixerai-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -c auto -n backend,frontend \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build && npm --prefix backend run build",
+    "start": "npm --prefix backend run start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
