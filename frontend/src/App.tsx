@@ -31,9 +31,7 @@ function App() {
     setResult(null)
 
     try {
-      // Use environment variable or default to current origin for production
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
-      const response = await fetch(`${backendUrl}/api/generate`, {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

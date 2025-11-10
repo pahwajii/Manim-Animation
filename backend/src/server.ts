@@ -18,11 +18,12 @@ const PORT = Number(process.env.PORT || 3000);
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "models/gemini-2.5-pro-exp";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
-/** Manim executable - configurable via environment variable */
-const MANIM_EXE = process.env.MANIM_CLI || process.env.MANIM_EXE || "manim";
+/** Resolve repo root and config from .env with safe defaults */
+const repoRoot = path.resolve(__dirname, "../..");
 
-/** Python executable - configurable via environment variable */
-const PYTHON_EXE = process.env.PYTHON_EXE || "python3";
+/** Manim and Python executables (from .env or venv in repo) */
+const MANIM_EXE = process.env.MANIM_EXE || path.join(repoRoot, ".venv", "Scripts", "manim.exe");
+const PYTHON_EXE = process.env.PYTHON_EXE || path.join(repoRoot, ".venv", "Scripts", "python.exe");
 
 /** We keep a single scene name always (choice A) */
 const SCENE_NAME = "GeneratedScene";
@@ -32,13 +33,19 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
 
-/** Public videos output (served statically) */
-const videosDir = path.join(__dirname, "../../public/videos");
+/** Media directories (configurable via .env, default under repoRoot) */
+const videosDir = process.env.VIDEOS_DIR || path.join(repoRoot, "public", "videos");
+const tempRootDir = process.env.TEMP_DIR || path.join(repoRoot, "temp");
+const mediaDirDefault = process.env.MEDIA_DIR || path.join(repoRoot, "public", "media");
+
 fs.mkdir(videosDir, { recursive: true });
+fs.mkdir(tempRootDir, { recursive: true });
+fs.mkdir(mediaDirDefault, { recursive: true });
+
 app.use("/videos", express.static(videosDir));
 
 /** Serve built frontend if present */
-const clientDist = path.join(__dirname, "../../frontend/dist");
+const clientDist = path.join(repoRoot, "frontend", "dist");
 app.use(express.static(clientDist));
 
 /* -------------------- Helpers -------------------- */
@@ -67,8 +74,7 @@ async function findMp4Files(dir: string): Promise<string[]> {
 
 /** Execute Manim CLI with fresh media_dir and unique output name */
 async function executeManimCode(code: string, sessionId: string) {
-  const rootTemp = path.join(__dirname, "../../temp");
-  const tempDir = path.join(rootTemp, sessionId); // isolate per request
+  const tempDir = path.join(tempRootDir, sessionId); // isolate per request
   const scriptPath = path.join(tempDir, `${sessionId}.py`);
   const mediaDir = path.join(tempDir, "media");
 
@@ -85,6 +91,7 @@ async function executeManimCode(code: string, sessionId: string) {
   try {
     const { stdout, stderr } = await execAsync(cmd, {
       cwd: tempDir,
+      env: { ...process.env },
       timeout: 3 * 60 * 1000, // 3 minutes; adjust as you like
     });
 
@@ -285,7 +292,6 @@ print(f"TTS_DURATION:{duration}")
     const { stdout, stderr } = await execAsync(`"${PYTHON_EXE}" "${scriptPath}"`, {
       cwd: tempDir,
       timeout: 30000, // 30 seconds timeout
-      env: { ...process.env, PYTHONPATH: path.join(__dirname, "../../manimenv/Lib/site-packages") }
     });
 
     // Clean up the script

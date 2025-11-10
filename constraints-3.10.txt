@@ -1,0 +1,12 @@
+# Optional constraints for Python 3.10 to improve wheel availability and stability on Windows
+# Uncomment/pin versions only if you hit specific issues. Defaults typically work.
+# Example pins known to have wheels for CPython 3.10 on win_amd64:
+# manim==0.17.*
+# av==10.*
+# moderngl==5.*
+# glcontext==3.*
+# mapbox-earcut==1.*
+# pyglm==2.*
+# skia-pathops==0.7.*
+# numpy==1.24.*
+# pillow==9.*
